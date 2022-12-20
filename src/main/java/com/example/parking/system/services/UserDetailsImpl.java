@@ -1,4 +1,4 @@
-package com.example.parking.system.security.services;
+package com.example.parking.system.services;
 
 import java.util.Collection;
 import java.util.List;

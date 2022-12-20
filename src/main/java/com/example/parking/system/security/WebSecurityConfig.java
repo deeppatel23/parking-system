@@ -1,6 +1,6 @@
 package com.example.parking.system.security;
 
-import com.example.parking.system.security.services.UserDetailsServiceImpl;
+import com.example.parking.system.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.example.parking.system.security.services;
+package com.example.parking.system.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
