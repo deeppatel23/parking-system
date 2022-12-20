@@ -13,7 +13,7 @@ public interface ParkingSlotService {
 
     ResponseEntity<?> allocateParkingSlotToUser(ParkingRequest parkingRequest);
 
-    ResponseEntity<?> deallocateParkingSlotToUser(String username);
+    ResponseEntity<?> deallocateParkingSlot(Long id);
 
     ResponseEntity<?> findEmptyParkingSlot();
 }

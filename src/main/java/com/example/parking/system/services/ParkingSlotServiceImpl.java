@@ -1,13 +1,16 @@
 package com.example.parking.system.services;
 
+import com.example.parking.system.models.History;
 import com.example.parking.system.models.ParkingSlot;
 import com.example.parking.system.payload.request.ParkingRequest;
 import com.example.parking.system.payload.response.MessageResponse;
+import com.example.parking.system.repository.HistoryRepository;
 import com.example.parking.system.repository.ParkingSlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +19,9 @@ public class ParkingSlotServiceImpl implements ParkingSlotService{
 
     @Autowired
     private ParkingSlotRepository parkingSlotRepository;
+
+    @Autowired
+    private HistoryRepository historyRepository;
 
     @Override
     public ResponseEntity<?> addParkingSlot(ParkingSlot parkingSlot) {
@@ -28,9 +34,12 @@ public class ParkingSlotServiceImpl implements ParkingSlotService{
 
     @Override
     public ResponseEntity<?> findParkingSlotByName(String name) {
-        ParkingSlot parkingSlot = parkingSlotRepository.findByName(name);
+        Optional<ParkingSlot> parkingSlot = parkingSlotRepository.findByName(name);
+        if (parkingSlot.isPresent()) {
+            return ResponseEntity.ok(parkingSlot);
+        }
 
-        return ResponseEntity.ok(parkingSlot);
+        return ResponseEntity.ok("No parking slot present with name: " + name);
     }
 
     @Override
@@ -42,27 +51,49 @@ public class ParkingSlotServiceImpl implements ParkingSlotService{
 
     @Override
     public ResponseEntity<?> allocateParkingSlotToUser(ParkingRequest parkingRequest) {
-        ParkingSlot parkingSlot = parkingSlotRepository.findByName(parkingRequest.getName());
-        if (parkingSlot.getUsername() != null) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Parking Slot already occupied"));
-        }
+        Optional<ParkingSlot> parkingSlot = parkingSlotRepository.findById(parkingRequest.getId());
+        if (parkingSlot.isPresent()) {
+            ParkingSlot parkingSlot1 = parkingSlot.get();
 
-        parkingSlot.setUsername(parkingRequest.getUsername());
-        parkingSlot.setVehicleRegisterationNumber(parkingRequest.getVehicleRegisterationNumber());
-        parkingSlotRepository.save(parkingSlot);
-        return ResponseEntity.ok(new MessageResponse("Parking Slot assigned to !" + parkingRequest.getUsername()));
+            if (parkingSlot1.getUsername() != null) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Parking Slot already occupied"));
+            }
+
+            parkingSlot1.setUsername(parkingRequest.getUsername());
+            parkingSlot1.setVehicleRegisterationNumber(parkingRequest.getVehicleRegisterationNumber());
+            parkingSlot1.setEntryTime(LocalDateTime.now());
+            parkingSlotRepository.save(parkingSlot1);
+            return ResponseEntity.ok(new MessageResponse("Parking Slot assigned to !" + parkingRequest.getUsername()));
+        }
+        return ResponseEntity.ok("No such parking slot present with id" + parkingRequest.getId());
     }
 
     @Override
-    public ResponseEntity<?> deallocateParkingSlotToUser(String username) {
-        ParkingSlot parkingSlot = parkingSlotRepository.findByUsername(username);
-        if (parkingSlot.getUsername() == null) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Parking Slot already empty"));
-        }
+    public ResponseEntity<?> deallocateParkingSlot(Long id) {
+        Optional<ParkingSlot> parkingSlot = parkingSlotRepository.findById(id);
 
-        parkingSlot.setUsername(null);
-        parkingSlotRepository.save(parkingSlot);
-        return ResponseEntity.ok(new MessageResponse("Parking Slot now free!"));
+        if (parkingSlot.isPresent()) {
+            ParkingSlot parkingSlot1 = parkingSlot.get();
+            if (parkingSlot1.getUsername() == null) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Parking Slot already empty"));
+            }
+
+            History history = new History();
+            history.setParkingSlotId(parkingSlot1.getId());
+            history.setParkingSlotName(parkingSlot1.getName());
+            history.setUsername(parkingSlot1.getUsername());
+            history.setVehicleRegisterationNumber(parkingSlot1.getVehicleRegisterationNumber());
+            history.setEntryTime(parkingSlot1.getEntryTime());
+            history.setExitTime(LocalDateTime.now());
+            historyRepository.save(history);
+
+            parkingSlot1.setUsername(null);
+            parkingSlot1.setVehicleRegisterationNumber(null);
+            parkingSlot1.setEntryTime(null);
+            parkingSlotRepository.save(parkingSlot1);
+            return ResponseEntity.ok(new MessageResponse("Parking Slot now free!"));
+        }
+        return ResponseEntity.ok("Parking slot is already free");
     }
 
     @Override

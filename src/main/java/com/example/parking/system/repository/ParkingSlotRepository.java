@@ -9,9 +9,11 @@ import java.util.Optional;
 
 public interface ParkingSlotRepository extends JpaRepository<ParkingSlot, Long> {
 
-    ParkingSlot findByName(String name);
+    Optional<ParkingSlot> findByName(String name);
 
-    ParkingSlot findByUsername(String username);
+    Optional<ParkingSlot> findByUsername(String username);
+
+    Optional<ParkingSlot> findById(Long id);
 
     List<ParkingSlot> findByFloor(String floor);
 

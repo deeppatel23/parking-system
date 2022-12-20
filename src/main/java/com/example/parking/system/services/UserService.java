@@ -13,4 +13,6 @@ public interface UserService {
     ResponseEntity<?> registerUser(SignupRequest signUpRequest);
 
     ResponseEntity<?> logourUser();
+
+    ResponseEntity<?> getUserDetails(String username);
 }

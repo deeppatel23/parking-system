@@ -14,7 +14,7 @@ public class ParkingRequest {
 
     @NotBlank
     @Size(max = 20)
-    private String name;
+    private Long id;
 
     @NotBlank
     @Size(max = 4)

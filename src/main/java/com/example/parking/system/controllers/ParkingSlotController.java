@@ -37,9 +37,9 @@ public class ParkingSlotController {
         return parkingSlotService.allocateParkingSlotToUser(parkingRequest);
     }
 
-    @PostMapping("/unpark/{parkingSlotName}")
-    public ResponseEntity<?> deallocateParkingSlotToUser(@PathVariable("parkingSlotName") String parkingSlotName) {
-        return parkingSlotService.deallocateParkingSlotToUser(parkingSlotName);
+    @PostMapping("/unpark/{id}")
+    public ResponseEntity<?> deallocateParkingSlotToUser(@PathVariable("id") Long id) {
+        return parkingSlotService.deallocateParkingSlot(id);
     }
 
     @GetMapping("/empty")

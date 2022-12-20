@@ -23,6 +23,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -127,6 +128,12 @@ public class UserServiceImpl implements UserService{
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(new MessageResponse("You've been signed out!"));
+    }
+
+    @Override
+    public ResponseEntity<?> getUserDetails(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        return ResponseEntity.ok(user);
     }
 
 }

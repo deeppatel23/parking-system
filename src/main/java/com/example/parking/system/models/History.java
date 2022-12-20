@@ -8,34 +8,28 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-@Entity
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class ParkingSlot {
+public class History {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(max = 10)
-    private String name;
+    private Long parkingSlotId;
 
-    @NotBlank
-    @Size(max = 4)
-    private String floor;
+    private String parkingSlotName;
 
-    @Size(max = 20)
-    private String username = null;
+    private String username;
 
-    @Size(max = 20)
-    private String vehicleRegisterationNumber = null;
+    private String vehicleRegisterationNumber;
 
-    private LocalDateTime entryTime = null;
+    private LocalDateTime entryTime;
+
+    private LocalDateTime exitTime;
 }
