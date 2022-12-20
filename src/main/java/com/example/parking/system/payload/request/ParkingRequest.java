@@ -1,10 +1,15 @@
 package com.example.parking.system.payload.request;
 
+import com.example.parking.system.models.Esize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
@@ -12,8 +17,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class ParkingRequest {
 
-    @NotBlank
-    @Size(max = 20)
+    @NotNull
     private Long id;
 
     @NotBlank

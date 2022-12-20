@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
@@ -38,4 +35,12 @@ public class ParkingSlot {
     private String vehicleRegisterationNumber = null;
 
     private LocalDateTime entryTime = null;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private Esize size;
+
+    public ParkingSlot(Esize size) {
+        this.size = size;
+    }
 }

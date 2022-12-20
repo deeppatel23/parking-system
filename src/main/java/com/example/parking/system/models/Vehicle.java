@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -38,5 +35,13 @@ public class Vehicle {
     @NotBlank
     @Size(max = 30)
     private String model;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private Esize size;
+
+    public Vehicle(Esize size) {
+        this.size = size;
+    }
 
 }

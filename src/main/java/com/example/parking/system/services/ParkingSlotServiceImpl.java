@@ -2,14 +2,17 @@ package com.example.parking.system.services;
 
 import com.example.parking.system.models.History;
 import com.example.parking.system.models.ParkingSlot;
+import com.example.parking.system.models.Vehicle;
 import com.example.parking.system.payload.request.ParkingRequest;
 import com.example.parking.system.payload.response.MessageResponse;
 import com.example.parking.system.repository.HistoryRepository;
 import com.example.parking.system.repository.ParkingSlotRepository;
+import com.example.parking.system.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -23,9 +26,13 @@ public class ParkingSlotServiceImpl implements ParkingSlotService{
     @Autowired
     private HistoryRepository historyRepository;
 
+    @Autowired
+    private VehicleRepository vehicleRepository;
+
     @Override
     public ResponseEntity<?> addParkingSlot(ParkingSlot parkingSlot) {
-        if (parkingSlotRepository.findByName(parkingSlot.getName()) != null) {
+        Optional<ParkingSlot> parkingSlot1 = parkingSlotRepository.findByName(parkingSlot.getName());
+        if (parkingSlot1.isPresent()) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Parking Slot exist!"));
         }
         parkingSlotRepository.save(parkingSlot);
@@ -57,6 +64,18 @@ public class ParkingSlotServiceImpl implements ParkingSlotService{
 
             if (parkingSlot1.getUsername() != null) {
                 return ResponseEntity.badRequest().body(new MessageResponse("Parking Slot already occupied"));
+            }
+
+            Optional<Vehicle> vehicle = vehicleRepository.findByRegisterationNumber(parkingRequest.getVehicleRegisterationNumber());
+            if (vehicle.isPresent()) {
+                Vehicle vehicle1 = vehicle.get();
+                System.out.println(vehicle1.getUsername());
+                if (parkingSlot1.getSize() != vehicle1.getSize()) {
+                    return ResponseEntity.badRequest().body(new MessageResponse("Vehicle size and slot size must be same"));
+                }
+            }
+            else {
+                ResponseEntity.ok("No such vehicle exist!");
             }
 
             parkingSlot1.setUsername(parkingRequest.getUsername());
