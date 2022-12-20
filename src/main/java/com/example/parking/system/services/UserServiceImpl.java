@@ -65,7 +65,9 @@ public class UserServiceImpl implements UserService{
         .body(new UserInfoResponse(userDetails.getId(),
                                    userDetails.getUsername(),
                                    userDetails.getEmail(),
-                                   roles));
+                                   userDetails.getMobile(),
+                                    userDetails.getDrivingLisence(),
+                                    roles));
     }
 
     @Override
@@ -81,7 +83,9 @@ public class UserServiceImpl implements UserService{
         // Create new user's account
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getMobile(),
+                signUpRequest.getDrivingLisence());
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();

@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.parking.system.models.User;
 import com.example.parking.system.repository.UserRepository;
 
+import javax.validation.constraints.Email;
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
   @Autowired
