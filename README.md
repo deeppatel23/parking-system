@@ -43,7 +43,7 @@
     "name":"A104",
     "floor":"1",
     "username":null,
-    "vehicle_registeration_number":null,
+    "vehicleRegisterationNumber":null,
     "size":"SIZE_MEDIUM"
     
   - Park: http://localhost:5001/api/parking/park
