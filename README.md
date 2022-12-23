@@ -9,20 +9,17 @@
     "mobile":"1234567890",
     "drivingLisence":"GJ12345",
     "role":["user"]
-    
   - SignIn: http://localhost:5001/api/auth/sign
     ```
     "username":"test2",
     "password":"12345678"
-  
   - SignOut: http://localhost:5001/api/auth/signout
-  
   - Details of user: http://localhost:5001/api/auth/details/test2 
   - Insert into roles tables
     ```
       INSERT INTO roles(name) VALUES('ROLE_USER');
       INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
-      INSERT INTO roles(name) VALUES('ROLE_ADMIN');```
+      INSERT INTO roles(name) VALUES('ROLE_ADMIN');
   
 ### Vehicle
   - Add: http://localhost:5001/api/vehicle/add
@@ -32,9 +29,7 @@
     "registerationNumber":"GJ26M2020",
     "model":"Activa 5G",
     "size":"SIZE_SMALL"
-    
   - Search by username: http://localhost:5001/api/vehicle/user/test
-  
   - Search by Registration Number: http://localhost:5001/api/vehicle/regnum/GJ26M2018
 
 ### Parking
@@ -45,14 +40,12 @@
     "username":null,
     "vehicleRegisterationNumber":null,
     "size":"SIZE_MEDIUM"
-    
-  - Park: http://localhost:5001/api/parking/park
+  - Park: http://localhost:5001/api/parking/park (here id is parkingSlotId)
      ```
       "id": 1,
       "floor":"1",
       "username":"test",
       "vehicleRegisterationNumber":"GJ26M2014"
-
    - Unpark: http://localhost:5001/api/parking/unpark/{userId}
    - List of Empty parking slots: http://localhost:5001/api/parking/empty
    - Find parking slot by name: http://localhost:5001/api/parking/name/A101
