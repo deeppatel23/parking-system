@@ -1,7 +1,59 @@
-# Spring Boot Login example with Spring Security, MySQL and JWT
+# Parking Automation Backend
 
-- Appropriate Flow for User Login and Registration with JWT
-- Spring Boot Rest Api Architecture with Spring Security
-- How to configure Spring Security to work with JWT
-- How to define Data Models and association for Authentication and Authorization
-- Way to use Spring Data JPA to interact with MySQL Database
+- User Authentication
+  - SignUp: http://localhost:5001/api/auth/signup
+    ```
+    "username":"test2",
+    "email":"test2@gmail.com",
+    "password":"12345678",
+    "mobile":"1234567890",
+    "drivingLisence":"GJ12345",
+    "role":["user"]
+    
+  - SignIn: http://localhost:5001/api/auth/sign
+    ```
+    "username":"test2",
+    "password":"12345678"
+  
+  - SignOut: http://localhost:5001/api/auth/signout
+  
+  - Details: http://localhost:5001/api/auth/details/test2 
+  - Insert into roles tables
+  ```
+    INSERT INTO roles(name) VALUES('ROLE_USER');
+    INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
+    INSERT INTO roles(name) VALUES('ROLE_ADMIN');```
+  
+- Vehicle
+  - Add: http://localhost:5001/api/vehicle/add
+    ```
+    "color":"red",
+    "username":"test2",
+    "registerationNumber":"GJ26M2020",
+    "model":"Activa 5G",
+    "size":"SIZE_SMALL"
+    
+  - Search by username: http://localhost:5001/api/vehicle/user/test
+  
+  - Search by Registration Number: http://localhost:5001/api/vehicle/regnum/GJ26M2018
+
+- Parking
+  - Add: http://localhost:5001/api/parking/add
+    ```
+    "name":"A104",
+    "floor":"1",
+    "username":null,
+    "vehicle_registeration_number":null,
+    "size":"SIZE_MEDIUM"
+    
+  - Park: http://localhost:5001/api/parking/park
+   ```
+    "id": 1,
+    "floor":"1",
+    "username":"test",
+    "vehicleRegisterationNumber":"GJ26M2014"
+
+ - Unpark: http://localhost:5001/api/parking/unpark/{userId}
+ - List of Empty parking slots: http://localhost:5001/api/parking/empty
+ - Find parking slot by name: http://localhost:5001/api/parking/name/A101
+ - Find parking slot by floor: http://localhost:5001/api/parking/floor/1
