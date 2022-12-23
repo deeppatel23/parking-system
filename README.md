@@ -1,4 +1,4 @@
-# Parking Automation Backend
+# Parking System Backend
 
 ### User Authentication
   - SignUp: http://localhost:5001/api/auth/signup
