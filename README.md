@@ -1,6 +1,6 @@
 # Parking Automation Backend
 
-- User Authentication
+### User Authentication
   - SignUp: http://localhost:5001/api/auth/signup
     ```
     "username":"test2",
@@ -17,14 +17,14 @@
   
   - SignOut: http://localhost:5001/api/auth/signout
   
-  - Details: http://localhost:5001/api/auth/details/test2 
+  - Details of user: http://localhost:5001/api/auth/details/test2 
   - Insert into roles tables
-  ```
-    INSERT INTO roles(name) VALUES('ROLE_USER');
-    INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
-    INSERT INTO roles(name) VALUES('ROLE_ADMIN');```
+    ```
+      INSERT INTO roles(name) VALUES('ROLE_USER');
+      INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
+      INSERT INTO roles(name) VALUES('ROLE_ADMIN');```
   
-- Vehicle
+### Vehicle
   - Add: http://localhost:5001/api/vehicle/add
     ```
     "color":"red",
@@ -37,7 +37,7 @@
   
   - Search by Registration Number: http://localhost:5001/api/vehicle/regnum/GJ26M2018
 
-- Parking
+### Parking
   - Add: http://localhost:5001/api/parking/add
     ```
     "name":"A104",
@@ -47,13 +47,13 @@
     "size":"SIZE_MEDIUM"
     
   - Park: http://localhost:5001/api/parking/park
-   ```
-    "id": 1,
-    "floor":"1",
-    "username":"test",
-    "vehicleRegisterationNumber":"GJ26M2014"
+     ```
+      "id": 1,
+      "floor":"1",
+      "username":"test",
+      "vehicleRegisterationNumber":"GJ26M2014"
 
- - Unpark: http://localhost:5001/api/parking/unpark/{userId}
- - List of Empty parking slots: http://localhost:5001/api/parking/empty
- - Find parking slot by name: http://localhost:5001/api/parking/name/A101
- - Find parking slot by floor: http://localhost:5001/api/parking/floor/1
+   - Unpark: http://localhost:5001/api/parking/unpark/{userId}
+   - List of Empty parking slots: http://localhost:5001/api/parking/empty
+   - Find parking slot by name: http://localhost:5001/api/parking/name/A101
+   - Find parking slot by floor: http://localhost:5001/api/parking/floor/1
