@@ -11,6 +11,8 @@ import com.example.parking.system.models.User;
 public interface UserRepository extends JpaRepository<User, Long> {
   Optional<User> findByUsername(String username);
 
+  User findByEmailIgnoreCase(String emailId);
+
   Boolean existsByUsername(String username);
 
   Boolean existsByEmail(String email);

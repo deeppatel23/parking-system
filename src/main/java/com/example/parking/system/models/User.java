@@ -47,6 +47,8 @@ public class User {
   @Size(max = 20)
   private String drivingLisence;
 
+  private boolean isEnabled;
+
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(name = "user_roles", 
              joinColumns = @JoinColumn(name = "user_id"),

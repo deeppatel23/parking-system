@@ -15,4 +15,6 @@ public interface UserService {
     ResponseEntity<?> logourUser();
 
     ResponseEntity<?> getUserDetails(String username);
+
+    ResponseEntity<?> confirmEmail(String confirmationToken);
 }

@@ -73,4 +73,9 @@ public class AuthController {
   public ResponseEntity<?> getUserDetails(@PathVariable("username") String username) {
     return userService.getUserDetails(username);
   }
+
+  @RequestMapping(value="/confirm-account", method= {RequestMethod.GET, RequestMethod.POST})
+  public ResponseEntity<?> confirmUserAccount(@RequestParam("token")String confirmationToken) {
+    return userService.confirmEmail(confirmationToken);
+  }
 }

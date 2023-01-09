@@ -1,5 +1,6 @@
 package com.example.parking.system.services;
 
+import com.example.parking.system.models.ConfirmationToken;
 import com.example.parking.system.models.ERole;
 import com.example.parking.system.models.Role;
 import com.example.parking.system.models.User;
@@ -7,6 +8,7 @@ import com.example.parking.system.payload.request.LoginRequest;
 import com.example.parking.system.payload.request.SignupRequest;
 import com.example.parking.system.payload.response.MessageResponse;
 import com.example.parking.system.payload.response.UserInfoResponse;
+import com.example.parking.system.repository.ConfirmationTokenRepository;
 import com.example.parking.system.repository.RoleRepository;
 import com.example.parking.system.repository.UserRepository;
 import com.example.parking.system.security.jwt.JwtUtils;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,6 +47,12 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     PasswordEncoder encoder;
+
+    @Autowired
+    ConfirmationTokenRepository confirmationTokenRepository;
+
+    @Autowired
+    EmailService emailService;
 
     @Autowired
     JwtUtils jwtUtils;
@@ -120,7 +129,20 @@ public class UserServiceImpl implements UserService{
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        ConfirmationToken confirmationToken = new ConfirmationToken(user);
+
+        confirmationTokenRepository.save(confirmationToken);
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(user.getEmail());
+        mailMessage.setSubject("Complete Registration!");
+        mailMessage.setText("To confirm your account, please click here : "
+                +"http://localhost:5001/api/auth/confirm-account?token="+confirmationToken.getConfirmationToken());
+        emailService.sendEmail(mailMessage);
+
+        System.out.println("Confirmation Token: " + confirmationToken.getConfirmationToken());
+
+        return ResponseEntity.ok(new MessageResponse("Verify email by the link sent on your email address"));
     }
 
     @Override
@@ -134,6 +156,20 @@ public class UserServiceImpl implements UserService{
     public ResponseEntity<?> getUserDetails(String username) {
         Optional<User> user = userRepository.findByUsername(username);
         return ResponseEntity.ok(user);
+    }
+
+    @Override
+    public ResponseEntity<?> confirmEmail(String confirmationToken) {
+        ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+
+        if(token != null)
+        {
+            User user = userRepository.findByEmailIgnoreCase(token.getUserEntity().getEmail());
+            user.setEnabled(true);
+            userRepository.save(user);
+            return ResponseEntity.ok(new MessageResponse("Email verified successfully!"));
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("Error: Couldn't verify email"));
     }
 
 }

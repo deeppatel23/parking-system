@@ -20,7 +20,7 @@
       INSERT INTO roles(name) VALUES('ROLE_USER');
       INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
       INSERT INTO roles(name) VALUES('ROLE_ADMIN');
-  
+  - Email verification with Gmail SMTP server
 ### Vehicle
   - Add: http://localhost:5001/api/vehicle/add
     ```
