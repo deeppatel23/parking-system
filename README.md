@@ -1,5 +1,8 @@
 # Parking System Backend
 
+### Class Diagram
+    ![class diagram](https://github.com/deeppatel23/parking-system/blob/main/Class_Diagram.png?raw=true)
+
 ### User Authentication
   - SignUp: http://localhost:5001/api/auth/signup
     ```
