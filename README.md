@@ -12,7 +12,7 @@
     "mobile":"1234567890",
     "drivingLisence":"GJ12345",
     "role":["user"]
-  - SignIn: http://localhost:5001/api/auth/sign
+  - SignIn: http://localhost:5001/api/auth/signin
     ```
     "username":"test2",
     "password":"12345678"
